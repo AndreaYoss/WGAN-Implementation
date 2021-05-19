@@ -39,8 +39,8 @@ Backpropagation, or the “backward propagation of errors,” is an iterative al
 
 In a GAN, parameter weight updates are performed iteratively.  While both the generator loss and discriminator loss are calculated by the discriminator and backward propagated through their respective networks, backpropagation only occurs in one network at a time, while the other network’s weights are fixed.  
 
-The backpropagation process for the discriminator is summarized in Figure 2.
-
+The backpropagation process for the discriminator is summarized in the following figure.
+![TEST](assets/Dbackprop_GAN.png)
 
 \begin{figure}[h!]
 \centering
