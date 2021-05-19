@@ -175,46 +175,15 @@ After training for 100 epochs, I fed noise through the generator to produce imag
 A significant limitation for this project was the availability of computing resources. Ideally, due to the nature of the EM distance, one would train the critic until optimality. Unfortunately, this would require more time and computing power than I have access to. Further, while building my model, I inadvertently exceeded my GPU usage limits on Google Colab. To adapt to no longer having access to a GPU, I reduced the size of my CNN architectures by removing all but two convolutional layers. Instead of using the full Fashion-MNIST dataset, I ultimately chose to use a random sample of 5000 images from the  dataset as a proof of concept.
 
 
-\newpage
+### References
 
-\bibliographystyle{plain}
-\begin{thebibliography}{25}
+[1] Goodfellow, I. J., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., Courville, A., & Bengio, Y. (2014). Generative adversarial networks.
 
-\bibitem{a} Goodfellow, I. J., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., Courville, A., & Bengio, Y. (2014). Generative adversarial networks.
+[2] Arjovsky, M., Chintala, S., & Bottou, L. (2017). wasserstein gan.
 
-\bibitem{b} Arjovsky, M., Chintala, S., & Bottou, L. (2017). wasserstein gan.
+[3] Pieters, M., & Wiering, M. (2018). Comparing generative adversarial network techniques for image creation and modification.
 
-\bibitem{c} Pieters, M., & Wiering, M. (2018). Comparing generative adversarial network techniques for image creation and modification.
-
-\bibitem{d}Munro, P. (2017). backpropagation. (pp. 93-97). \emph{Springer US}. https://doi.org/10.1007/978-1-4899-7687-1\_51
+[4] Munro, P. (2017). backpropagation. (pp. 93-97). *Springer US*. https://doi.org/10.1007/978-1-4899-7687-1_51
 
 
-\bibitem{e} Radford, A., Metz, L., & Chintala, S. (2015). Unsupervised representation learning with deep convolutional generative adversarial networks.
-
-
-
-\end{thebibliography}
-
-----
-
-## Background
-
-
-
-### Generative Adversarial Models
-
-
-### Measuring Similarities between PDFs
-
-
----
-## Wasserstein GAN
-
-
-### Motivation
-
-
-### Algorithm
-
-
-### Implementation
+[5] Radford, A., Metz, L., & Chintala, S. (2015). Unsupervised representation learning with deep convolutional generative adversarial networks.
