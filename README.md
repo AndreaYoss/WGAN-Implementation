@@ -17,8 +17,10 @@ Using the Fashion-MNIST dataset, I have implemented a WGAN model using PyTorch a
 ## Contents
 - [Discriminative and Generative Models](#Discriminative-and-Generative-Models)
 - [Generative Adversarial Networks](#Generative-Adversarial-Networks)
-
-
+- [Backpropagation](#Backpropagation)
+- [Similarity Metrics](#Similarity-Metrics)
+- [Wasserstein Generative Adversarial Networks (WGAN)](#Wassersein-Generative-Adversarial-Networks)
+- [References](#References)
 
 ---
 
