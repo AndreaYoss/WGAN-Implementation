@@ -11,7 +11,7 @@ Generative Adversarial Models (GANs) are powerful deep learning, generative mode
 Using the Fashion-MNIST dataset, I have implemented a WGAN model using PyTorch and JAX.
 
 
-### Discriminitive vs. Generative Models
+### Discriminative vs. Generative Models
 
 A Discriminative model models the decision boundary between the classes. A Generative Model explicitly models the actual distribution of each class. While both models predict the conditional probability, they learn different probabilities in order to do so. A Discriminative model directly learns the conditional probability distribution; on the other hand, a Generative Model learns the joint probability distribution p(x,y), and then ultimately predicting the conditional probability using Bayes Rule.
 
@@ -42,12 +42,12 @@ In a GAN, parameter weight updates are performed iteratively.  While both the ge
 
 The backpropagation process for the discriminator is summarized in the following figure.
 
-Figure 2 Backpropagation process for discriminator. (Image by author)
+**Figure 2** Backpropagation process for discriminator. (Image by author)
 !["Backpropagation process for discriminator. (Image by author)"](assets/Dbackprop_GAN.png)
 
  In this stage of the learning process, only the discriminator loss is sent back through the discriminator to obtain its gradients; the generator is not involved in this process. In contrast, when updating the generator, the generator loss is actually backpropagated through both the discriminator and generator to obtain gradients. The process of training the generator over a single iteration is summarized in Figure 3.
 
- Figure 3 Backpropagation process for generator. (Image by author)
+ **Figure 3** Backpropagation process for generator. (Image by author)
  !["Backpropagation process for generator. (Image by author)"](assets/Gbackprop_GAN.png)
 
 
@@ -57,7 +57,7 @@ While backpropagation is a widely applied method of parameter tuning, its succes
 ### Similarity Metrics
 To illustrate the drawbacks of using loss functions with certain similarity metrics when learning distributions supported by low dimensional manifolds, Arjovsky et al. (2017) looked at the simple case of learning two probability distributions parallel to one another in $R^2$. This scenario is shown in Figure 4.
 
-Figure 4 Visualization of example described in Arjovsky et al. (2017) showing how various similarity metrics behave when provided non-overlapping distributions in low dimensional manifolds. This introduced the appeal of the EM distance compared to the Kullback-Leiber (KL) Divergence and Jensen-Shannon (JS) Divergence due to the continuity exhibited by its resulting loss function. As Q moves T distance approaching the distribution P at 0, Q converges to P under the EM distance. It does not converge under the KL or JS divergences. (Image by author)
+**Figure 4** Visualization of example described in Arjovsky et al. (2017) showing how various similarity metrics behave when provided non-overlapping distributions in low dimensional manifolds. This introduced the appeal of the EM distance compared to the Kullback-Leiber (KL) Divergence and Jensen-Shannon (JS) Divergence due to the continuity exhibited by its resulting loss function. As Q moves T distance approaching the distribution P at 0, Q converges to P under the EM distance. It does not converge under the KL or JS divergences. (Image by author)
 ![Parallel Lines Example"](assets/parallel_lines_example.png)
 
 
@@ -120,7 +120,7 @@ To enforce the Lipschitz continuity constraint during the entirety of the traini
 
 The WGAN algorithm is summarized in Figure 5.
 
-Figure 5 Wasserstein Generative Adversarial Network (WGAN) algorithm [2]
+**Figure 5** Wasserstein Generative Adversarial Network (WGAN) algorithm [2]
 ![WGAN algorithm](assets/WGANalgorithm.png)
 
 
@@ -133,7 +133,7 @@ The critic will train n_critic times for every one iteration the generator train
 
 The Fashion-MNIST dataset was created by Zalando Research, and contains 60,000 training and 10,000 test/ validation grayscale images, with each image labeled as one of ten types of clothing (such as coat, dress, sneaker, etc.). Sample images for each of the ten classes are displayed in Figure 6.
 
-Figure 6 Sample Images from the Fashion-MNIST Dataset (Image by author)
+**Figure 6** Sample Images from the Fashion-MNIST Dataset (Image by author)
 ![Sample Images from the Fashion-MNIST Dataset](assets/FashionMNIST_classes.png)
 
 I trained a random sample of 5000 images from the Fashion-MNIST dataset for 100 epochs on my WGAN.  
@@ -149,7 +149,7 @@ The discriminator consists of two convolutional layers with output channels of 2
 
 My generator and critic losses over 100 epochs is summarized in Figure 7.
 
-Figure 7 Critic and Generator losses throughout the training process. 100 epochs. 5000 samples. (Image by author)
+**Figure 7** Critic and Generator losses throughout the training process. 100 epochs. 5000 samples. (Image by author)
 ![LossSummary](assets/loss100.png)
 
 
