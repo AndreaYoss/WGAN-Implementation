@@ -15,7 +15,7 @@ Using the Fashion-MNIST dataset, I have implemented a WGAN model using PyTorch a
 
 A Discriminative model models the decision boundary between the classes. A Generative Model explicitly models the actual distribution of each class. While both models predict the conditional probability, they learn different probabilities in order to do so. A Discriminative model directly learns the conditional probability distribution; on the other hand, a Generative Model learns the joint probability distribution p(x,y), and then ultimately predicting the conditional probability using Bayes Rule.
 
-Generative models can create new instances of data from a dataset, while discriminative models actually “discriminate” between classes in a dataset.  An example of how these models compare: While a discriminator will be able to learn to tell the difference between the number 7 and the number 9 in the classic MNIST, a generative model will learn the attributes associated with the numbers.  
+Generative models can create new instances of data from a dataset, while discriminative models actually “discriminate” between classes in a dataset.  An example of how these models compare: While a discriminator will be able to learn to tell the difference between the number 7 and the number 9 in the classic MNIST dataset, a generative model will learn the attributes associated with the numbers.  
 
 
 ### Generative Adversarial Networks (GANs)
