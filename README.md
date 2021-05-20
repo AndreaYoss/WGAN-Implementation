@@ -35,44 +35,34 @@ where $D(x)$ represents the probability that $x$ came from the real training dis
 ### Backpropagation
 Both networks are modeled as neural networks\footnote{In their original paper (2014), Goodfellow et al. used a multilayer perceptron (MLP) architecture to represent the discriminator and generator models in a GAN. However, in 2016, Radford et al. proposed using convolutional neural networks (CNNs) instead of MLPs in a GAN; they called this variation on Goodfellow’s proposed architecture a deep convolutional generative adversarial neural network (DCGAN).  DCGANs have been proven to work better than traditional GANs at capturing the data distributions of image datasets such as the MNIST dataset\cite{e}.}. During the training process, parameter weights are updated in both networks through backpropagation.
 
-Backpropagation, or the “backward propagation of errors,” is an iterative algorithm for reducing a network’s loss by updating its weight parameters based on the contribution of each parameter on that loss. The process works via gradient descent - by computing the gradient of the loss function with respect to each weight, and then backward propagating the errors through the network\cite{d}.  
+Backpropagation, or the “backward propagation of errors,” is an iterative algorithm for reducing a network’s loss by updating its weight parameters based on the contribution of each parameter on that loss. The process works via gradient descent - by computing the gradient of the loss function with respect to each weight, and then backward propagating the errors through the network [4].  
 
 In a GAN, parameter weight updates are performed iteratively.  While both the generator loss and discriminator loss are calculated by the discriminator and backward propagated through their respective networks, backpropagation only occurs in one network at a time, while the other network’s weights are fixed.  
 
 The backpropagation process for the discriminator is summarized in the following figure.
-!["Backpropagation process for discriminator. (Image by author)"](assets/Dbackprop_GAN.png)
 
-\begin{figure}[h!]
-\centering
-\caption{Backpropagation process for discriminator. (Image by author)}
-\includegraphics[scale=.7]{Dbackprop_GAN.png}
-\label{fig: GAN, D Update}
-\end{figure}
+Figure 2 Backpropagation process for discriminator. (Image by author)
+!["Backpropagation process for discriminator. (Image by author)"](assets/Dbackprop_GAN.png)
 
  In this stage of the learning process, only the discriminator loss is sent back through the discriminator to obtain its gradients; the generator is not involved in this process. In contrast, when updating the generator, the generator loss is actually backpropagated through both the discriminator and generator to obtain gradients. The process of training the generator over a single iteration is summarized in Figure 3.
 
- \begin{figure}[h!]
-\centering
-\caption{Backpropagation process for generator. (Image by author)}
-\includegraphics[scale=.7]{Gbackprop_GAN.png}
-\label{fig: GAN, G Update}
-\end{figure}
+ Figure 3 Backpropagation process for generator. (Image by author)
+ !["Backpropagation process for generator. (Image by author)"](assets/Gbackprop_GAN.png)
+
 
 While backpropagation is a widely applied method of parameter tuning, its success in generative networks is very much dependent on the model’s loss function, and the similarity metrics at its core.
 
-\section{Similarity Metrics}
+
+### Similarity Metrics
 To illustrate the drawbacks of using loss functions with certain similarity metrics when learning distributions supported by low dimensional manifolds, Arjovsky et al. (2017) looked at the simple case of learning two probability distributions parallel to one another in $R^2$. This scenario is shown in Figure 4.
 
-\begin{figure}[h!]
-\centering
-\caption{Visualization of example described in Arjovsky et al. (2017) showing how various similarity metrics behave when provided non-overlapping distributions in low dimensional manifolds. This introduced the appeal of the EM distance compared to the Kullback-Leiber (KL) Divergence and Jensen-Shannon (JS) Divergence due to the continuity exhibited by its resulting loss function. As Q moves T distance approaching the distribution P at 0, Q converges to P under the EM distance. It does not converge under the KL or JS divergences. (Image by author)}
-\includegraphics[scale=.7]{parallel_example.png}
-\label{fig: Parallel Lines}
-\end{figure}
+Figure 4 Visualization of example described in Arjovsky et al. (2017) showing how various similarity metrics behave when provided non-overlapping distributions in low dimensional manifolds. This introduced the appeal of the EM distance compared to the Kullback-Leiber (KL) Divergence and Jensen-Shannon (JS) Divergence due to the continuity exhibited by its resulting loss function. As Q moves T distance approaching the distribution P at 0, Q converges to P under the EM distance. It does not converge under the KL or JS divergences. (Image by author)
+![Parallel Lines Example"](assets/parallel_lines_example.png)
+
 
 When provided two non-overlapping distributions P and Q in low dimensional manifolds, only the EM distance converges to P as Q approached the P distribution at 0. The other metrics behave poorly in this situation.
 
-\subsection{Earth Mover Distance}
+#### Earth Mover Distance
 
 The Earth Mover (EM) Distance\footnote{The EM Distance is also known as the Wasserstein-1 or Wassersein Distance.} is essentially an optimization problem where the optimal value is the infimum\footnote{The infimum (inf) is the greatest lower bound.} of the products of the joint distributions ($\gamma{\in}\prod(P_r, P_g)$) and the euclidean distance\footnote{The euclidean distance is the shortest distance between two points.  This is also referred to as the L2 or euclidean norm.} between x and y ($||x-y||$).
 
@@ -88,7 +78,7 @@ Like the KL and JS divergences, the EM distance measures the similarity between 
 In the example illustrated in Figure 4, the EM distance will always be equal to T, as it is measured by the horizontal distance between distributions.
 
 
-\subsection{Additional Similarity Metrics}
+### Additional Similarity Metrics
 The Kullback-Leiber (KL) divergence between two distributions $P_r$ and $P_g$ is
 $$KL(P_r||P_g) = \int{log}(\frac{P_r(x)}{P_g(x)})P_r(x)d\mu(x).$$
 
@@ -112,7 +102,7 @@ This result is significant, as it highlights an issue with training traditional 
 Other issues a GAN model may encounter are mode collapse and the vanishing gradient problem.  Mode collapse is when the generator's output becomes less diverse. The vanishing gradient problem arises when the discriminator is so good that its gradient essentially "vanishes" preventing the generator from additional learning.
 
 
-\section{Wasserstein Generative Adversarial Networks}
+### Wasserstein Generative Adversarial Networks
 
 In 2017, Arjovsky et al. proposed a variation on the standard GAN they referred to as the Wasserstein Generative Adversarial Network (WGAN) to address the issues encountered when training a traditional GAN\cite{b}.
 While similar to traditional GANs, there are important distinctions between the WGAN algorithm and that of a traditional GAN. First, instead of minimizing an approximation of the Jensen-Shannon (JS) Divergence, WGAN minimizes an approximation of the Earth Mover (EM) Distance.
@@ -127,52 +117,38 @@ Instead of having a discriminator network perform binary classification, WGANs u
 
 To enforce the Lipschitz continuity constraint during the entirety of the training process, Arjovsky et al. proposed a method called weight clipping\cite{b}.  Weight clipping is the process of clamping the weights of a neural network after each gradient update to ensure the parameters lie within a compact space, [-c, c], where c is the fixed clipping parameter.
 
-The WGAN algorithm is summarized in Figure 4.
+The WGAN algorithm is summarized in Figure 5.
 
-\begin{figure}[h!]
-\centering
-\caption{Wasserstein Generative Adversarial Network (WGAN) algorithm \cite{b}.}
-\includegraphics[scale=.7]{WGAN_Algorithm.png}
-\label{fig:WGAN Algorithm}
-\end{figure}
-
-As opposed to a momentum-based optimizer like Adam, RMSProp is used in the WGAN algorithm. Arjovsky et al. (2017) attribute the issues they encountered when training with momentum-based optimizers to the WGAN having a nonstationary loss function\cite{b}.
-
-The critic will train n\_critic times for every one iteration the generator trains.  In my implementation of the WGAN model, I used the default parameter value of 5 updates of the critic for every one update of the generator.
+Figure 5 Wasserstein Generative Adversarial Network (WGAN) algorithm [2]
+![WGAN algorithm](assets/WGAN_Algorithm.png)
 
 
-\subsection{Implementation}
+As opposed to a momentum-based optimizer like Adam, RMSProp is used in the WGAN algorithm. Arjovsky et al. (2017) attribute the issues they encountered when training with momentum-based optimizers to the WGAN having a nonstationary loss function [2].
+
+The critic will train n_critic times for every one iteration the generator trains.  In my implementation of the WGAN model, I used the default parameter value of 5 updates of the critic for every one update of the generator.
+
+
+#### Implementation
 
 The Fashion-MNIST dataset was created by Zalando Research, and contains 60,000 training and 10,000 test/ validation grayscale images, with each image labeled as one of ten types of clothing (such as coat, dress, sneaker, etc.). Sample images for each of the ten classes are displayed in Figure 6.
 
-\begin{figure}[h!]
-\centering
-\caption{Sample Images from the Fashion-MNIST Dataset (Image by author)}
-\includegraphics[scale=.7]{FashionMNIST_classes.png}
-\label{fig:FashMNISTclasses}
-\end{figure}
+Figure 6 Sample Images from the Fashion-MNIST Dataset (Image by author)
+![Sample Images from the Fashion-MNIST Dataset](assets/FashionMNIST_classes.png)
 
-I trained a random sample of 5000 images from the Fashion-MNIST dataset for 100 epochs on my Wasserstein Generative Adversarial Network.  
+I trained a random sample of 5000 images from the Fashion-MNIST dataset for 100 epochs on my WGAN.  
 
-The complete code for my WGAN can be found in Appendix A of this report, while my code modifications for my implemented WGAN can be found in Appendix B.
+My WGAN is made up of two convolutional neural networks (CNNs) - one for the generator and the other for the discriminator. I constructed both of these using jax.experimental.stax.serial. The generator consists of two convolutional layers with output channels of 512 and 256, 2x2 strides and 4x4 filter/kernel. After each of these, I included a batched normalization layer followed by a rectified linear unit (ReLU) activation layer (to prevent potential issues with vanishing gradients). Finally, I used a hyperbolic tangent (tanh) activation function as my output layer to make sure output values were strictly in range [-1,1].  The discriminator also consists of two convolutional layers 
 
 
-\subsubsection{Analysis of Results}
+#### Analysis of Results
 
 My generator and critic losses over 100 epochs is summarized in Figure 7.
 
-\begin{figure}[h!]
-\centering
-\caption{Critic and Generator losses throughout the training process. 100 epochs. 5000 samples. (Image by author).}
-\includegraphics[scale=.7]{loss100.png}
-\label{fig:Loss Summary}
-\end{figure}
-
-After training for 100 epochs, I fed noise through the generator to produce images. Unfortunately these images did not resemble the articles of clothing in the underlying dataset. However, these images in conjunction with with the values of the losses at the end of 100 epochs, highlight the need to train the model over more epochs. Some of the generated images can be found in Appendix C.
+Figure 7 Critic and Generator losses throughout the training process. 100 epochs. 5000 samples. (Image by author)
+![LossSummary](assets/loss100.png)
 
 
-\subsection{Limitations}
-A significant limitation for this project was the availability of computing resources. Ideally, due to the nature of the EM distance, one would train the critic until optimality. Unfortunately, this would require more time and computing power than I have access to. Further, while building my model, I inadvertently exceeded my GPU usage limits on Google Colab. To adapt to no longer having access to a GPU, I reduced the size of my CNN architectures by removing all but two convolutional layers. Instead of using the full Fashion-MNIST dataset, I ultimately chose to use a random sample of 5000 images from the  dataset as a proof of concept.
+After training for 100 epochs, I fed noise through the generator to produce images. Unfortunately these images did not resemble the articles of clothing in the underlying dataset. These images - in conjunction with with the values of the losses at the end of 100 epochs - highlight the need to train the model over more epochs.  However, limited by my access to computational resources, it was not feasible for me to do this.
 
 
 ### References
