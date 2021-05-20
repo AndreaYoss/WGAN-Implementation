@@ -14,16 +14,17 @@ Using the Fashion-MNIST dataset, I have implemented a WGAN model using PyTorch a
 ---
 
 ## Contents
-- [Discriminative vs. Generative Models](#Discriminative-vs.-Generative-Models)
+- [Discriminative and Generative Models](#Discriminative-and-Generative-Models)
+- [Generative Adversarial Networks](#Generative-Adversarial-Networks)
 
-## Discriminative vs. Generative Models
+## Discriminative and Generative Models
 
 A Discriminative model models the decision boundary between the classes. A Generative Model explicitly models the actual distribution of each class. While both models predict the conditional probability, they learn different probabilities in order to do so. A Discriminative model directly learns the conditional probability distribution; on the other hand, a Generative Model learns the joint probability distribution p(x,y), and then ultimately predicting the conditional probability using Bayes Rule.
 
 Generative models can create new instances of data from a dataset, while discriminative models actually “discriminate” between classes in a dataset.  An example of how these models compare: While a discriminator will be able to learn to tell the difference between the number 7 and the number 9 in the classic MNIST dataset, a generative model will learn the attributes associated with the numbers.  
 
 
-## Generative Adversarial Networks (GANs)
+## Generative Adversarial Networks
 
 A Generative Adversarial Network (GAN) is a type of generative model proposed by Goodfellow et al. in 2014 [1].  By simultaneously training both a generative model - the generator - and a discriminative model - the discriminator, Goodfellow et al. was able to improve on the performance of prior deep learning generative models by essentially turning the unsupervised learning model into a supervised one.
 
