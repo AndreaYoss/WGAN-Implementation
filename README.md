@@ -121,7 +121,7 @@ To enforce the Lipschitz continuity constraint during the entirety of the traini
 The WGAN algorithm is summarized in Figure 5.
 
 Figure 5 Wasserstein Generative Adversarial Network (WGAN) algorithm [2]
-![WGAN algorithm](assets/WGAN_Algorithm.png)
+![WGAN algorithm](assets/WGANalgorithm.png)
 
 
 As opposed to a momentum-based optimizer like Adam, RMSProp is used in the WGAN algorithm. Arjovsky et al. (2017) attribute the issues they encountered when training with momentum-based optimizers to the WGAN having a nonstationary loss function [2].
