@@ -2,6 +2,7 @@
 
 #### Author: Andrea Yoss: [LinkedIn](https://www.linkedin.com/in/andreayoss/)
 
+*NOTE: IN PROGRESS*
 
 ### Introduction
 
@@ -137,7 +138,7 @@ Figure 6 Sample Images from the Fashion-MNIST Dataset (Image by author)
 
 I trained a random sample of 5000 images from the Fashion-MNIST dataset for 100 epochs on my WGAN.  
 
-My WGAN is made up of two convolutional neural networks (CNNs) - one for the generator and the other for the discriminator. I constructed both of these using jax.experimental.stax.serial. The generator consists of two convolutional layers with output channels of 512 and 256, 2x2 strides and 4x4 filter/kernel. After each of these, I included a batched normalization layer followed by a rectified linear unit (ReLU) activation layer (to prevent potential issues with vanishing gradients). Finally, I used a hyperbolic tangent (tanh) activation function as my output layer to make sure output values were strictly in range [-1,1].  The discriminator also consists of two convolutional layers 
+My WGAN is made up of two convolutional neural networks (CNNs) - one for the generator and the other for the discriminator. I constructed both of these using jax.experimental.stax.serial. The generator consists of two convolutional layers with output channels of 512 and 256, 2x2 strides and 4x4 filter/kernel. After each of these, I included a batched normalization layer followed by a rectified linear unit (ReLU) activation layer (to prevent potential issues with vanishing gradients). Finally, I used a hyperbolic tangent (tanh) activation function as my output layer to make sure output values were strictly in range [-1,1].  The discriminator also consists of two convolutional layers
 
 
 #### Analysis of Results
