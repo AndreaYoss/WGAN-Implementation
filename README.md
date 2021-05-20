@@ -4,28 +4,33 @@
 
 *NOTE: IN PROGRESS*
 
-### Introduction
+---
+
+## Introduction
 
 Generative Adversarial Models (GANs) are powerful deep learning, generative models that were introduced by Goodfellow et al. in 2014 [1].  Through an adversarial training process between two neural networks with differing objectives, the network learns to generate data increasingly similar to that of the actual training data. The Wasserstein-GAN (WGAN) was proposed in 2017 by Arjovsky et al. to improve on this architecture.  By performing gradient descent on an approximation of the continuous and differentiable Earth-Mover (EM) distance through weight clipping, the WGAN is able to address some of the problems when training traditional GANs [2]. Common issues with traditional GANs include mode collapse and vanishing gradients.
 
 Using the Fashion-MNIST dataset, I have implemented a WGAN model using PyTorch and JAX.
+---
 
+## Contents
+- [Discriminative vs. Generative Models](#Discriminative-vs.-Generative-Models)
 
-### Discriminative vs. Generative Models
+## Discriminative vs. Generative Models
 
 A Discriminative model models the decision boundary between the classes. A Generative Model explicitly models the actual distribution of each class. While both models predict the conditional probability, they learn different probabilities in order to do so. A Discriminative model directly learns the conditional probability distribution; on the other hand, a Generative Model learns the joint probability distribution p(x,y), and then ultimately predicting the conditional probability using Bayes Rule.
 
 Generative models can create new instances of data from a dataset, while discriminative models actually “discriminate” between classes in a dataset.  An example of how these models compare: While a discriminator will be able to learn to tell the difference between the number 7 and the number 9 in the classic MNIST dataset, a generative model will learn the attributes associated with the numbers.  
 
 
-### Generative Adversarial Networks (GANs)
+## Generative Adversarial Networks (GANs)
 
 A Generative Adversarial Network (GAN) is a type of generative model proposed by Goodfellow et al. in 2014 [1].  By simultaneously training both a generative model - the generator - and a discriminative model - the discriminator, Goodfellow et al. was able to improve on the performance of prior deep learning generative models by essentially turning the unsupervised learning model into a supervised one.
 
 Both models have different objectives in the training process: the generator seeks to copy the actual underlying distribution of the data, while the discriminator seeks to differentiate between the "real" and generated "fake" data.  This “adversarial” process can be viewed as a 2-player minimax, zero-sum game in which the players are pitted against one another. While the discriminator seeks to differentiate between "real" and "fake" data, the generator seeks to generate data similar enough to the actual data in order to "trick" the discriminator into incorrectly labeling the generated data.  
 
 
-#### Adversarial Training Process
+### Adversarial Training Process
 
 The adversarial process for a GAN can also be thought of as a minimax game between the discriminator and the generator. During training, the discriminator $D(x;\theta_d)$ is trained to maximize the probability of correctly classifying the data, while the generator $G(z;\theta_g)$ is simultaneously trained to minimize $log(1-D(G(z)))$\cite{a}. This is represented by the value function $V(G,D)$:
 
@@ -33,7 +38,7 @@ $\min_{G}\max_{D}V(D,G) = E_{x\sim{p_{data}(x)}}[logD(x)]+E_{z\sim{p_z}(z)}[log(
 
 where $D(x)$ represents the probability that $x$ came from the real training distribution $P_{data}$ as opposed to the generator’s distribution $P_g$, $P_z$ ($P_{noise}$) is the prior on the input noise variables $z$, and $G(z)$ represents the mapping to data space.  A Nash equilibrium\footnote{In game theory, a Nash Equilibrium is achieved when no player is better off from changing his or her strategy.} is achieved in this zero-sum game when the generator gets so good that the discriminator can no longer differentiate between the generated data and the real data.  At this point, the probability of the discriminator classifying data as "real" or "fake" are both equal to $\frac{1}{2}$. This is essentially the same as random guessing.  
 
-### Backpropagation
+## Backpropagation
 Both networks are modeled as neural networks\footnote{In their original paper (2014), Goodfellow et al. used a multilayer perceptron (MLP) architecture to represent the discriminator and generator models in a GAN. However, in 2016, Radford et al. proposed using convolutional neural networks (CNNs) instead of MLPs in a GAN; they called this variation on Goodfellow’s proposed architecture a deep convolutional generative adversarial neural network (DCGAN).  DCGANs have been proven to work better than traditional GANs at capturing the data distributions of image datasets such as the MNIST dataset\cite{e}.}. During the training process, parameter weights are updated in both networks through backpropagation.
 
 Backpropagation, or the “backward propagation of errors,” is an iterative algorithm for reducing a network’s loss by updating its weight parameters based on the contribution of each parameter on that loss. The process works via gradient descent - by computing the gradient of the loss function with respect to each weight, and then backward propagating the errors through the network [4].  
@@ -54,7 +59,7 @@ The backpropagation process for the discriminator is summarized in the following
 While backpropagation is a widely applied method of parameter tuning, its success in generative networks is very much dependent on the model’s loss function, and the similarity metrics at its core.
 
 
-### Similarity Metrics
+## Similarity Metrics
 To illustrate the drawbacks of using loss functions with certain similarity metrics when learning distributions supported by low dimensional manifolds, Arjovsky et al. (2017) looked at the simple case of learning two probability distributions parallel to one another in $R^2$. This scenario is shown in Figure 4.
 
 **Figure 4** Visualization of example described in Arjovsky et al. (2017) showing how various similarity metrics behave when provided non-overlapping distributions in low dimensional manifolds. This introduced the appeal of the EM distance compared to the Kullback-Leiber (KL) Divergence and Jensen-Shannon (JS) Divergence due to the continuity exhibited by its resulting loss function. As Q moves T distance approaching the distribution P at 0, Q converges to P under the EM distance. It does not converge under the KL or JS divergences. (Image by author)
@@ -63,7 +68,7 @@ To illustrate the drawbacks of using loss functions with certain similarity metr
 
 When provided two non-overlapping distributions P and Q in low dimensional manifolds, only the EM distance converges to P as Q approached the P distribution at 0; metrics such as the Kullback-Leiber (KL) Divergence and Jensen-Shannon (JS) Divergence behave poorly in this situation.
 
-#### Earth Mover Distance
+### Earth Mover Distance
 
 The Earth Mover (EM) Distance\footnote{The EM Distance is also known as the Wasserstein-1 or Wassersein Distance.} is essentially an optimization problem where the optimal value is the infimum\footnote{The infimum (inf) is the greatest lower bound.} of the products of the joint distributions ($\gamma{\in}\prod(P_r, P_g)$) and the euclidean distance\footnote{The euclidean distance is the shortest distance between two points.  This is also referred to as the L2 or euclidean norm.} between x and y ($||x-y||$).
 
@@ -103,9 +108,9 @@ This result is significant, as it highlights an issue with training traditional 
 Other issues a GAN model may encounter are mode collapse and the vanishing gradient problem.  Mode collapse is when the generator's output becomes less diverse. The vanishing gradient problem arises when the discriminator is so good that its gradient essentially "vanishes" preventing the generator from additional learning.
 
 
-### Wasserstein Generative Adversarial Networks
+## Wasserstein Generative Adversarial Networks
 
-In 2017, Arjovsky et al. proposed a variation on the standard GAN they referred to as the Wasserstein Generative Adversarial Network (WGAN) to address the issues encountered when training a traditional GAN\cite{b}.
+In 2017, Arjovsky et al. proposed a variation on the standard GAN they referred to as the Wasserstein Generative Adversarial Network (WGAN) to address the issues encountered when training a traditional GAN [2].
 While similar to traditional GANs, there are important distinctions between the WGAN algorithm and that of a traditional GAN. First, instead of minimizing an approximation of the Jensen-Shannon (JS) Divergence, WGAN minimizes an approximation of the Earth Mover (EM) Distance.
 
 Since the EM distance is intractable, Arjovsky et al. introduced a more manageable approximation of the EM distance using the Kantorovich-Rubinstein duality,
@@ -129,7 +134,7 @@ As opposed to a momentum-based optimizer like Adam, RMSProp is used in the WGAN 
 The critic will train n_critic times for every one iteration the generator trains.  In my implementation of the WGAN model, I used the default parameter value of 5 updates of the critic for every one update of the generator.
 
 
-#### Implementation
+### Implementation
 
 The Fashion-MNIST dataset was created by Zalando Research, and contains 60,000 training and 10,000 test/ validation grayscale images, with each image labeled as one of ten types of clothing (such as coat, dress, sneaker, etc.). Sample images for each of the ten classes are displayed in Figure 6.
 
@@ -145,7 +150,7 @@ The generator consists of two transposed convolutional layers with output channe
 The discriminator consists of two convolutional layers with output channels of 256 and 512, 2x2 strides and 4x4 filter/kernel. After each of these, I included a batched normalization layer followed by a ReLU activation layer. Unlike in the case of traditional GANs for which the discriminator serves as a binary classifier between distributions $P_r$ and $P_g$, the discriminator in WGANs actually learns a K-Lipschitz continuous function. So, the output layer of the discriminator in this case is just a Dense layer with the output dimension of 1 (to produce scalar output). This is compared to the Sigmoid activation function of GANs used to *"smush"* the output of the network to a probability [of $P_r$] between 0 and 1.
 
 
-#### Analysis of Results
+### Analysis of Results
 
 My generator and critic losses over 100 epochs is summarized in Figure 7.
 
@@ -156,7 +161,7 @@ My generator and critic losses over 100 epochs is summarized in Figure 7.
 After training for 100 epochs, I fed noise through the generator to produce images. Unfortunately these images did not resemble the articles of clothing in the underlying dataset. These images - in conjunction with with the values of the losses at the end of 100 epochs - highlight the need to train the model over more epochs.  However, limited by my access to computational resources, it was not feasible for me to do this.
 
 
-### References
+## References
 
 [1] Goodfellow, I. J., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., Courville, A., & Bengio, Y. (2014). Generative adversarial networks.
 
@@ -165,6 +170,5 @@ After training for 100 epochs, I fed noise through the generator to produce imag
 [3] Pieters, M., & Wiering, M. (2018). Comparing generative adversarial network techniques for image creation and modification.
 
 [4] Munro, P. (2017). backpropagation. (pp. 93-97). *Springer US*. https://doi.org/10.1007/978-1-4899-7687-1_51
-
 
 [5] Radford, A., Metz, L., & Chintala, S. (2015). Unsupervised representation learning with deep convolutional generative adversarial networks.
