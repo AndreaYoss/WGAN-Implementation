@@ -138,7 +138,11 @@ Figure 6 Sample Images from the Fashion-MNIST Dataset (Image by author)
 
 I trained a random sample of 5000 images from the Fashion-MNIST dataset for 100 epochs on my WGAN.  
 
-My WGAN is made up of two convolutional neural networks (CNNs) - one for the generator and the other for the discriminator. I constructed both of these using jax.experimental.stax.serial. The generator consists of two convolutional layers with output channels of 512 and 256, 2x2 strides and 4x4 filter/kernel. After each of these, I included a batched normalization layer followed by a rectified linear unit (ReLU) activation layer (to prevent potential issues with vanishing gradients). Finally, I used a hyperbolic tangent (tanh) activation function as my output layer to make sure output values were strictly in range [-1,1].  The discriminator also consists of two convolutional layers
+My WGAN is made up of two convolutional neural networks (CNNs) - one for the generator and the other for the discriminator. I constructed both of these using jax.experimental.stax.serial.  Note that to preserve spacial dimensions, I use transposed convolutional layers in the generator and regular convolutional layers in the discriminator.
+
+The generator consists of two transposed convolutional layers with output channels of 512 and 256, 2x2 strides and 4x4 filter/kernel. After each of these, I included a batched normalization layer followed by a rectified linear unit (ReLU) activation layer (to prevent any potential issues with vanishing gradients). Finally, I used a hyperbolic tangent (tanh) activation function as my output layer, making sure output values were strictly in range [-1,1].  
+
+The discriminator consists of two convolutional layers with output channels of 256 and 512, 2x2 strides and 4x4 filter/kernel. After each of these, I included a batched normalization layer followed by a ReLU activation layer. Unlike in the case of traditional GANs for which the discriminator serves as a binary classifier between distributions $P_r$ and $P_g$, the discriminator in WGANs actually learns a K-Lipschitz continuous function. So, the output layer of the discriminator in this case is just a Dense layer with the output dimension of 1 (to produce scalar output). This is compared to the Sigmoid activation function of GANs used to *"smush"* the output of the network to a probability [of $P_r$] between 0 and 1. 
 
 
 #### Analysis of Results
