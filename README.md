@@ -11,6 +11,7 @@
 Generative Adversarial Models (GANs) are powerful deep learning, generative models that were introduced by Goodfellow et al. in 2014 [1].  Through an adversarial training process between two neural networks with differing objectives, the network learns to generate data increasingly similar to that of the actual training data. The Wasserstein-GAN (WGAN) was proposed in 2017 by Arjovsky et al. to improve on this architecture.  By performing gradient descent on an approximation of the continuous and differentiable Earth-Mover (EM) distance through weight clipping, the WGAN is able to address some of the problems when training traditional GANs [2]. Common issues with traditional GANs include mode collapse and vanishing gradients.
 
 Using the Fashion-MNIST dataset, I have implemented a WGAN model using PyTorch and JAX.
+
 ---
 
 ## Contents
